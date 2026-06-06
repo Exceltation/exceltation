@@ -36,7 +36,7 @@ body {
 .navbar .logo { 
     font-size: 1.5rem; 
     font-weight: bold; 
-    color: #169A3A; /* Exceltation Brand Green */
+    color: #169A3A; 
     text-decoration: none;
 } 
 .nav-controls { 
@@ -44,17 +44,14 @@ body {
     align-items: center; 
     gap: 2rem; 
 } 
-.nav-btn { 
+.nav-link-item { 
     text-decoration: none; 
     color: #555; 
     font-weight: 500; 
-    cursor: pointer; 
-    background: none; 
-    border: none; 
     font-size: 1rem; 
     transition: color 0.3s; 
 } 
-.nav-btn:hover { 
+.nav-link-item:hover { 
     color: #169A3A; 
 } 
 /* Resources Dropdown Matrix */
@@ -108,6 +105,8 @@ body {
     cursor: pointer; 
     display: flex; 
     align-items: center; 
+    text-decoration: none;
+    color: inherit;
 }
 .cart-icon { 
     font-size: 1.4rem; 
@@ -308,11 +307,11 @@ footer {
 <nav class="navbar"> 
 <a href="https://exceltation.com" class="logo">Exceltation™</a> 
 <div class="nav-controls">
-    <a href="https://exceltation.com" class="nav-btn">Home</a>
-    <a href="https://exceltation.com" class="nav-btn">Products</a>
+    <a href="https://exceltation.com" class="nav-link-item">Home</a>
+    <a href="https://exceltation.com" class="nav-link-item">Products</a>
     
     <div class="dropdown">
-        <button class="nav-btn">Resources ▼</button>
+        <a href="#services" class="nav-link-item" style="cursor: pointer;">Resources ▼</a>
         <div class="dropdown-content">
             <a href="#services">About</a>
             <a href="#">FAQs</a>
@@ -321,14 +320,14 @@ footer {
     </div>
 
     <div class="search-container">
-        <!-- Reroutes user cleanly to the standalone catalog search interface if input triggers -->
-        <input type="text" placeholder="Search products..." onfocus="window.location.href='https://exceltation.com'">
+        <!-- Direct clean routing to search index loop -->
+        <input type="text" placeholder="Search products..." onkeydown="if(event.key === 'Enter'){ window.location.href='https://exceltation.com?search=' + encodeURIComponent(this.value); }">
     </div>
 
-    <div class="cart-wrapper" onclick="window.location.href='https://exceltation.com'">
+    <a href="https://exceltation.com" class="cart-wrapper">
         <span class="cart-icon">🛒</span>
         <div class="cart-badge">0</div>
-    </div>
+    </a>
 </div>
 </nav> 
 <!-- Hero Showcase Section --> 
