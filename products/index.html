@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exceltation | Browse Products</title>
+    <link rel="icon" type="image/png" href="https://exceltation.com">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; } 
+        body { background-color: #f4f7f5; color: #333; min-height: 100vh; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: white; padding: 1rem 2rem; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .navbar .logo { font-size: 1.4rem; font-weight: bold; color: #169A3A; text-decoration: none; }
+        .nav-controls { display: flex; align-items: center; gap: 2rem; }
+        .nav-btn { text-decoration: none; color: #555; font-weight: 500; cursor: pointer; background: none; border: none; font-size: 1rem; transition: color 0.3s; }
+        .nav-btn:hover { color: #169A3A; }
+        .active-nav { color: #169A3A; font-weight: 600; }
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-content { display: none; position: absolute; background-color: white; min-width: 160px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; top: 100%; left: 0; }
+        .dropdown-content a { color: #333; padding: 0.75rem 1rem; text-decoration: none; display: block; font-size: 0.95rem; }
+        .dropdown-content a:hover { background-color: #f4f7f5; color: #169A3A; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .search-container input { padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 20px; width: 200px; font-size: 0.9rem; transition: width 0.3s, border-color 0.3s; }
+        .search-container input:focus { outline: none; border-color: #169A3A; width: 260px; }
+        .cart-wrapper { position: relative; cursor: pointer; display: flex; align-items: center; padding: 5px; }
+        .cart-icon { font-size: 1.4rem; }
+        .cart-badge { position: absolute; top: -5px; right: -8px; background-color: #169A3A; color: white; font-size: 0.7rem; font-weight: bold; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
+        .catalog-container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; display: grid; grid-template-columns: 240px 1fr; gap: 2rem; }
+        .sidebar { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); height: fit-content; }
+        .filter-section { margin-bottom: 2rem; }
+        .filter-section h4 { font-size: 0.95rem; margin-bottom: 0.75rem; color: #111; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #f4f7f5; padding-bottom: 0.25rem; }
+        .filter-option { display: flex; align-items: center; margin-bottom: 0.6rem; color: #555; cursor: pointer; font-size: 0.95rem; user-select: none; }
+        .filter-option:hover { color: #169A3A; }
+        .filter-option input { margin-right: 0.6rem; cursor: pointer; }
+        .catalog-main h2 { font-size: 1.8rem; margin-bottom: 1.5rem; color: #111; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+        .product-card { background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; border-top: 3px solid transparent; transition: transform 0.3s, box-shadow 0.3s; }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); border-top-color: #169A3A; }
+        .product-info h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: #111; }
+        .tag-row { margin-bottom: 0.75rem; }
+        .product-info .tag { display: inline-block; background: #e8f5ec; color: #169A3A; font-size: 0.7rem; font-weight: bold; padding: 0.2rem 0.5rem; border-radius: 3px; margin-right: 0.4rem; }
+        .product-info p { color: #666; font-size: 0.9rem; margin-bottom: 1.25rem; line-height: 1.4; }
+        .product-action { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 0.5rem; }
+        .price { font-weight: 700; color: #111; font-size: 1.15rem; }
+        .add-cart-btn { background: #169A3A; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 0.85rem; transition: background 0.2s; }
+        .add-cart-btn:hover { background: #11742B; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="https://exceltation.com" class="logo">Exceltation™</a>
+        <div class="nav-controls">
+            <button class="nav-btn" onclick="routeToHome()">Home</button>
+            <button class="nav-btn active-nav">Products</button>
+            <div class="dropdown">
+                <button class="nav-btn">Resources ▼</button>
+                <div class="dropdown-content">
+                    <a href="https://exceltation.com">About</a>
+                    <a href="#">FAQs</a>
+                    <a href="https://exceltation.com">Contact</a>
+                </div>
+            </div>
+            <div class="search-container">
+                <input type="text" id="productSearch" oninput="executeCatalogFilter()" placeholder="Search products...">
+            </div>
+            <div class="cart-wrapper">
+                <span class="cart-icon">🛒</span>
+                <div id="cartCounter" class="cart-badge">0</div>
+            </div>
+        </div>
+    </nav>
+    <div class="catalog-container">
+        <aside class="sidebar">
+            <div class="filter-section">
+                <h4>Category</h4>
+                <label class="filter-option"><input type="checkbox" class="cat-filter" value="Finance" onchange="executeCatalogFilter()"> Finance</label>
+                <label class="filter-option"><input type="checkbox" class="cat-filter" value="DoD" onchange="executeCatalogFilter()"> DoD</label>
+                <label class="filter-option"><input type="checkbox" class="cat-filter" value="Gaming" onchange="executeCatalogFilter()"> Gaming</label>
+            </div>
+            <div class="filter-section">
+                <h4>Platform</h4>
+                <label class="filter-option"><input type="checkbox" class="plat-filter" value="Excel" onchange="executeCatalogFilter()"> Excel</label>
+                <label class="filter-option"><input type="checkbox" class="plat-filter" value="Apps" onchange="executeCatalogFilter()"> Apps</label>
+                <label class="filter-option"><input type="checkbox" class="plat-filter" value="Other" onchange="executeCatalogFilter()"> Other</label>
+            </div>
+        </aside>
+        <main class="catalog-main">
+            <h2>Browse Products</h2>
+            <div id="productGrid" class="product-grid"></div>
+        </main>
+    </div>
+    <script>
+        const database = [
+            { id: 1, name: "Capital Modeler Pro", category: "Finance", platform: "Excel", price: "$299", desc: "Automated cashflow projection matrices with visual analytics." },
+            { id: 2, name: "Defense Logistics Framework", category: "DoD", platform: "Other", price: "$1,450", desc: "High-security strategic tactical tracking system." },
+            { id: 3, name: "GuildMaster Ledger", category: "Gaming", platform: "Apps", price: "$19", desc: "Mobile companion application tracking virtual market variables." },
+            { id: 4, name: "Tactical Command Simulator", category: "Gaming", platform: "Other", price: "$49", desc: "Operational simulation framework configuration manager." },
+            { id: 5, name: "Portfolio Risk Engine", category: "Finance", platform: "Apps", price: "$120", desc: "Real-time investment asset tracking application." },
+            { id: 6, name: "Readiness Audit Framework", category: "DoD", platform: "Excel", price: "$500", desc: "MSO Excel auditing workbook built for inspection modeling." }
+        ];
+
+        let activeCartCount = 0;
+
+        // Automatically populate products when the page loads
+        window.onload = function() {
+            renderInventory(database);
+        };
+
+        function renderInventory(items) {
+            const wrapper = document.getElementById('productGrid');
+            wrapper.innerHTML = "";
+            if (items.length === 0) {
+                wrapper.innerHTML = `<p style='color:#888; grid-column: 1/-1; text-align:center; padding: 2rem;'>No products match your chosen criteria.</p>`;
+                return;
+            }
+            items.forEach(product => {
+                wrapper.innerHTML += `
+                    <div class="product-card">
+                        <div class="product-info">
+                            <div class="tag-row">
+                                <span class="tag">${product.category}</span>
+                                <span class="tag" style="background:#e0f0ff; color:#0066cc;">${product.platform}</span>
+                            </div>
+                            <h3>${product.name}</h3>
+                            <p>${product.desc}</p>
+                        </div>
+                        <div class="product-action">
+                            <span class="price">${product.price}</span>
+                            <button class="add-cart-btn" onclick="updateCart()">Add to Cart</button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function executeCatalogFilter() {
+            const searchVal = document.getElementById('productSearch').value.toLowerCase();
+            const activeCats = Array.from(document.querySelectorAll('.cat-filter:checked')).map(el => el.value);
+            const activePlats = Array.from(document.querySelectorAll('.plat-filter:checked')).map(el => el.value);
+            const filtered = database.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(searchVal) || item.desc.toLowerCase().includes(searchVal);
+                const matchesCat = activeCats.length === 0 || activeCats.includes(item.category);
+                const matchesPlat = activePlats.length === 0 || activePlats.includes(item.platform);
+                return matchesSearch && matchesCat && matchesPlat;
+            });
+            renderInventory(filtered);
+        }
+
+        function updateCart() {
+            activeCartCount++;
+            document.getElementById('cartCounter').innerText = activeCartCount;
+        }
+
+        function routeToHome() {
+            window.location.href = "https://exceltation.com";
+        }
+    </script>
+</body>
+</html>
