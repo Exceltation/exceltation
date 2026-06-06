@@ -427,14 +427,14 @@ footer {
 <div class="form-group"> 
 <label for="message">Project Scope / Requirements</label> 
 <textarea id="message" name="message" required placeholder="Describe the application, features, or organizational problem you need solved..."></textarea> </div> 
-<button type="submit" class="submit-btn">Submit Brief</button> 
+<button type="submit" class="submit-btn">Submit Message</button> 
 </form> 
 </div> 
 </section> 
 
 <!-- Footer Copyright --> 
 <footer> 
-<p>&copy; 2026 Exceltation LLC. All rights reserved. | Exalting Excellence</p> 
+<p>&copy; 2026 Exceltation LLC. All rights reserved.</p> 
 </footer> 
 
 <script>
@@ -499,14 +499,14 @@ function triggerLocalMailApp(e) {
     const clientMessage = document.getElementById('message').value.trim();
     
     // Define your business receiving inbox here
-    const targetBusinessInbox = "admin@exceltation.com";
-    const emailSubject = encodeURIComponent("Project Scope Brief: " + clientName);
+    const targetBusinessInbox = "Contact@Exceltation.com";
+    const emailSubject = encodeURIComponent("Message from: " + clientName);
     
     // Formats fields into structural body blocks inside message parameters
     const emailBody = encodeURIComponent(
         "Sender Name/Company: " + clientName + "\n" +
         "Return Contact Address: " + clientEmail + "\n\n" +
-        "Project Scope Requirements:\n" + clientMessage
+        "Message:\n" + clientMessage
     );
     
     // Fires browser trigger execution launching local desktop ecosystem client 
