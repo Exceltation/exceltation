@@ -417,7 +417,7 @@ footer {
 <div style="max-width: 1100px; margin: auto;"> 
 <h2 class="section-title">Get Started</h2> 
 <p class="section-subtitle">Let us know what you are building, and our team will outline a structured roadmap.</p>
-<form class="contact-form" action="https://formspree.io" method="POST"> 
+<form class="contact-form" onsubmit="triggerLocalMailApp(event)">
 <div class="form-group"> 
 <label for="name">Full Name / Company</label> 
 <input type="text" id="name" name="name" required placeholder="John Doe"> </div> 
@@ -490,6 +490,28 @@ footer {
             resultsPanel.style.display = "none";
         }
     });
+    // System mail dispatch engine pulling field context locally 
+function triggerLocalMailApp(e) {
+    e.preventDefault();
+    
+    const clientName = document.getElementById('name').value.trim();
+    const clientEmail = document.getElementById('email').value.trim();
+    const clientMessage = document.getElementById('message').value.trim();
+    
+    // Define your business receiving inbox here
+    const targetBusinessInbox = "admin@exceltation.com";
+    const emailSubject = encodeURIComponent("Project Scope Brief: " + clientName);
+    
+    // Formats fields into structural body blocks inside message parameters
+    const emailBody = encodeURIComponent(
+        "Sender Name/Company: " + clientName + "\n" +
+        "Return Contact Address: " + clientEmail + "\n\n" +
+        "Project Scope Requirements:\n" + clientMessage
+    );
+    
+    // Fires browser trigger execution launching local desktop ecosystem client 
+    window.location.href = "mailto:" + targetBusinessInbox + "?subject=" + emailSubject + "&body=" + emailBody;
+}
 </script>
 </body>
 </html>
