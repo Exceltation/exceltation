@@ -85,7 +85,10 @@ body {
 .dropdown:hover .dropdown-content { 
     display: block; 
 }
-/* Navigation Search Engine Input */
+/* Navigation Search Engine Input & Live Predictive Dropdown */
+.search-container {
+    position: relative;
+}
 .search-container input { 
     padding: 0.5rem 1rem; 
     border: 1px solid #ddd; 
@@ -97,7 +100,58 @@ body {
 .search-container input:focus { 
     outline: none; 
     border-color: #169A3A; 
-    width: 230px; 
+    width: 240px; 
+}
+.live-search-results {
+    display: none;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    width: 280px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    max-height: 320px;
+    overflow-y: auto;
+    z-index: 200;
+    border: 1px solid #eee;
+}
+.search-result-item {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f7f7f7;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+}
+.search-result-item:last-child {
+    border-bottom: none;
+}
+.search-result-item:hover {
+    background: #f4f7f5;
+}
+.search-result-item h5 {
+    font-size: 0.95rem;
+    color: #111;
+    margin-bottom: 0.15rem;
+}
+.search-result-item p {
+    font-size: 0.8rem;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.search-result-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: bold;
+    background: #e8f5ec;
+    color: #169A3A;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    margin-top: 0.25rem;
 }
 /* Navigation Interactive Shopping Cart Node */
 .cart-wrapper { 
@@ -308,7 +362,7 @@ footer {
 <a href="https://exceltation.com" class="logo">Exceltation™</a> 
 <div class="nav-controls">
     <a href="https://exceltation.com" class="nav-link-item">Home</a>
-    <a href="/products/" class="nav-link-item">Products</a>
+    <a href="https://exceltation.com" class="nav-link-item">Products</a>
     
     <div class="dropdown">
         <a href="#services" class="nav-link-item" style="cursor: pointer;">Resources ▼</a>
@@ -319,9 +373,10 @@ footer {
         </div>
     </div>
 
+    <!-- Live Search Dropdown System Structure -->
     <div class="search-container">
-        <!-- Direct clean routing to search index loop -->
-        <input type="text" placeholder="Search products..." onkeydown="if(event.key === 'Enter'){ window.location.href='https://exceltation.com?search=' + encodeURIComponent(this.value); }">
+        <input type="text" id="liveSearchInput" placeholder="Search products..." autocomplete="off">
+        <div id="liveSearchResultsPanel" class="live-search-results"></div>
     </div>
 
     <a href="https://exceltation.com" class="cart-wrapper">
@@ -379,7 +434,62 @@ footer {
 
 <!-- Footer Copyright --> 
 <footer> 
-<p>&copy; 2026 Exceltation LLC. All rights reserved.</p> 
+<p>&copy; 2026 Exceltation LLC. All rights reserved. | Exalting Excellence</p> 
 </footer> 
-</body> 
+
+<script>
+    // Global Catalog State Matrix for Live Search Sync
+    const searchCatalogData = [
+        { name: "Capital Modeler Pro", category: "Finance", platform: "Excel", desc: "Automated cashflow projection matrices with visual analytics." },
+        { name: "Defense Logistics Framework", category: "DoD", platform: "Other", desc: "High-security strategic tactical tracking system." },
+        { name: "GuildMaster Ledger", category: "Gaming", platform: "Apps", desc: "Mobile companion application tracking virtual market variables." },
+        { name: "Tactical Command Simulator", category: "Gaming", platform: "Other", desc: "Operational simulation framework configuration manager." },
+        { name: "Portfolio Risk Engine", category: "Finance", platform: "Apps", desc: "Real-time investment asset tracking application." },
+        { name: "Readiness Audit Framework", category: "DoD", platform: "Excel", desc: "MSO Excel auditing workbook built for inspection modeling." }
+    ];
+
+    const searchInput = document.getElementById('liveSearchInput');
+    const resultsPanel = document.getElementById('liveSearchResultsPanel');
+
+    // Evaluates strings instantly on every keystroke
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        resultsPanel.innerHTML = "";
+
+        if (query.length === 0) {
+            resultsPanel.style.display = "none";
+            return;
+        }
+
+        // Filters matching inventory positions
+        const matches = searchCatalogData.filter(item => 
+            item.name.toLowerCase().includes(query) || 
+            item.desc.toLowerCase().includes(query) ||
+            item.category.toLowerCase().includes(query)
+        );
+
+        if (matches.length === 0) {
+            resultsPanel.innerHTML = `<div style="padding: 1rem; color: #888; font-size: 0.9rem; text-align: center;">No matching products found</div>`;
+        } else {
+            matches.forEach(item => {
+                resultsPanel.innerHTML += `
+                    <a href="https://exceltation.com" class="search-result-item">
+                        <h5>${item.name}</h5>
+                        <p>${item.desc}</p>
+                        <span class="search-result-badge">${item.category}</span>
+                        <span class="search-result-badge" style="background:#e0f0ff; color:#0066cc;">${item.platform}</span>
+                    </a>`;
+            });
+        }
+        resultsPanel.style.display = "block";
+    });
+
+    // Dismisses dropdown panel gracefully if user clicks anywhere else outside the container focus
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !resultsPanel.contains(e.target)) {
+            resultsPanel.style.display = "none";
+        }
+    });
+</script>
+</body>
 </html>
