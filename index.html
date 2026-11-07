@@ -4,149 +4,201 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exceltation | Exalting Excellence in the Digital World</title>
-    <!-- Custom Favicon Added Below -->
-    <link rel="icon" type="image/jpeg" href="favicon.jpg">
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
         :root {
-            --primary-green: #2e7d32;
-            --light-green: #4caf50;
-            --dark-gray: #333333;
-            --text-gray: #666666;
-            --light-bg: #f5f5f5;
+            --green-primary: #2e7d32;
+            --green-hover: #1b5e20;
+            --gray-text: #666666;
+            --gray-light: #f5f5f5;
+            --dark-bg: #1a1a1a;
+            --white: #ffffff;
         }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            color: var(--dark-gray);
-            background-color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: var(--white);
+            color: #333;
             line-height: 1.6;
         }
-        /* Top Banner */
-        .top-banner {
+        
+        /* Banner Area spanning the very top */
+        .top-hero-banner {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            overflow: hidden;
+            display: block;
+        }
+        .top-hero-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Top Selection Banner / Navigation */
+        .nav-banner {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             padding: 15px 5%;
-            background-color: #ffffff;
+            background-color: var(--white);
             border-bottom: 1px solid #e0e0e0;
             position: sticky;
             top: 0;
             z-index: 1000;
         }
-        .logo-container img {
-            height: 40px;
-            cursor: pointer;
+        .logo-area {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .logo-area img {
+            height: 32px;
+            width: 32px;
+            margin-right: 10px;
+            object-fit: contain;
         }
         .nav-links {
             display: flex;
-            gap: 20px;
+            list-style: none;
             align-items: center;
+            gap: 20px;
         }
         .nav-links a {
             text-decoration: none;
-            color: var(--dark-gray);
+            color: #333;
             font-weight: 500;
-            font-size: 15px;
+            transition: color 0.2s;
         }
         .nav-links a:hover {
-            color: var(--primary-green);
+            color: var(--green-primary);
+        }
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--white);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+            list-style: none;
+            padding: 10px 0;
+            min-width: 200px;
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu li a {
+            padding: 8px 20px;
+            display: block;
+        }
+        .dropdown-menu li a:hover {
+            background-color: var(--gray-light);
         }
         .search-box {
             padding: 6px 12px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            font-size: 14px;
         }
-        .cart-icon-btn {
-            background: none;
-            border: none;
+        .cart-icon {
             position: relative;
-            cursor: pointer;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
         }
-        .cart-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: var(--light-green);
+        .cart-bubble {
+            background-color: var(--green-primary);
             color: white;
             border-radius: 50%;
             padding: 2px 6px;
-            font-size: 11px;
-            font-weight: bold;
+            font-size: 0.75rem;
+            position: absolute;
+            top: -10px;
+            right: -10px;
         }
 
-        /* Page Section 1: Hero Section */
+        /* Container layouts */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        /* Page Section 1 */
         .hero-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
-            padding: 60px 5%;
             align-items: center;
+            padding: 60px 0;
         }
         .hero-text h1 {
-            font-size: 42px;
-            color: var(--dark-gray);
-            margin: 0 0 15px 0;
+            font-size: 2.8rem;
             font-weight: 800;
+            margin-bottom: 15px;
+            line-height: 1.2;
         }
         .hero-text .description {
-            font-size: 16px;
-            color: var(--text-gray);
+            font-size: 1rem;
+            color: var(--gray-text);
             margin-bottom: 25px;
-            max-width: 500px;
         }
         .btn-explore {
             display: inline-block;
-            background-color: var(--primary-green);
+            background-color: var(--green-primary);
             color: white;
             padding: 12px 24px;
             text-decoration: none;
-            border-radius: 4px;
             font-weight: bold;
+            border-radius: 4px;
             margin-bottom: 30px;
+            transition: background-color 0.2s;
         }
         .btn-explore:hover {
-            background-color: var(--light-green);
+            background-color: var(--green-hover);
         }
-        .hero-metrics {
+        .metrics-grid {
             display: flex;
             gap: 30px;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
         }
         .metric-item {
-            font-size: 14px;
-            color: var(--text-gray);
+            font-size: 0.95rem;
+            font-weight: 500;
         }
-        .metric-item strong {
-            display: block;
-            font-size: 20px;
-            color: var(--dark-gray);
-        }
-        
-        /* Updated Banner Image Integration */
-        .hero-slideshow {
-            width: 100%;
+        .slideshow-box {
+            background: var(--gray-light);
             border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .hero-slideshow img {
-            width: 100%;
-            display: block;
-            object-fit: cover;
+            padding: 20px;
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e0e0e0;
         }
 
-        /* Page Section 2: Disciplines */
+        /* Disciplines */
         .disciplines-section {
-            background-color: var(--light-bg);
-            padding: 60px 5%;
-            text-align: center;
+            padding: 60px 0;
+            border-top: 1px solid #e0e0e0;
         }
-        .disciplines-section h2 {
-            font-size: 28px;
+        .section-title {
+            text-align: center;
             margin-bottom: 40px;
+            font-size: 2rem;
         }
         .disciplines-grid {
             display: grid;
@@ -154,137 +206,170 @@
             gap: 30px;
         }
         .discipline-card {
-            background: white;
-            padding: 30px;
+            padding: 25px;
+            border: 1px solid #e0e0e0;
             border-radius: 6px;
-            text-align: left;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
         .discipline-card h3 {
-            color: var(--primary-green);
-            margin-top: 0;
+            margin-bottom: 12px;
+            color: #111;
+        }
+
+        /* FAQ Dropdowns */
+        .faq-section {
+            padding: 60px 0;
+            border-top: 1px solid #e0e0e0;
+        }
+        .faq-item {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 15px 0;
+        }
+        .faq-question {
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+        .faq-answer {
+            margin-top: 10px;
+            color: var(--gray-text);
+            display: none;
         }
 
         /* Footer */
         footer {
-            background-color: #ffffff;
-            border-top: 1px solid #e0e0e0;
-            padding: 40px 5% 20px 5%;
-            font-size: 14px;
+            background-color: var(--dark-bg);
+            color: #ccc;
+            padding: 40px 5%;
+            font-size: 0.9rem;
         }
-        .footer-content {
+        .footer-grid {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 40px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
-        .footer-brand p {
-            color: var(--text-gray);
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 15px;
         }
-        .footer-links h4 {
-            margin-top: 0;
-            color: var(--dark-gray);
-        }
-        .footer-links ul {
+        .footer-col ul {
             list-style: none;
-            padding: 0;
-            margin: 0;
         }
-        .footer-links li {
-            margin-bottom: 10px;
+        .footer-col ul li {
+            margin-bottom: 8px;
         }
-        .footer-links a {
+        .footer-col ul li a {
+            color: #ccc;
             text-decoration: none;
-            color: var(--text-gray);
         }
-        .footer-links a:hover {
-            color: var(--primary-green);
+        .footer-col ul li a:hover {
+            color: white;
         }
         .footer-bottom {
-            border-top: 1px solid #eee;
+            border-top: 1px solid #333;
             padding-top: 20px;
             display: flex;
             justify-content: space-between;
-            color: var(--text-gray);
-            font-size: 12px;
+            align-items: center;
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Selection Banner -->
-    <header class="top-banner">
-        <div class="logo-container">
-            <a href="index.html"><img src="favicon.jpg" alt="Exceltation Logo"></a>
-        </div>
-        <nav class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="products.html">Digital Products</a>
-            <a href="about.html">About</a>
-            <a href="index.html#faqs">FAQs</a>
-            <a href="contact.html">Contact</a>
-            <input type="text" class="search-box" placeholder="Search site...">
-            <a href="login.html">Login</a>
-            <button class="cart-icon-btn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                <span class="cart-badge">0</span>
-            </button>
-        </nav>
-    </header>
+    <!-- Top Banner Element spanning the top neatly -->
+    <div class="top-hero-banner">
+        <img src="banner.jpg" alt="Exceltation Banner">
+    </div>
 
-    <!-- Page Section 1: Hero Section -->
-    <section class="hero-section">
-        <div class="hero-text">
-            <h1>Exalting Excellence in the Digital World</h1>
-            <p class="description">We architect highly optimized software, custom business applications, and advanced spreadsheet frameworks designed to optimize workflows and be user-friendly.</p>
-            <a href="products.html" class="btn-explore">Explore Digital Products</a>
-            
-            <div class="hero-metrics">
-                <div class="metric-item">
-                    <strong>150+</strong> Releases
-                </div>
-                <div class="metric-item">
-                    <strong>★ 4.8/5</strong> Satisfaction
-                </div>
-                <div class="metric-item">
-                    <strong>10+</strong> Industry Partners
-                </div>
-            </div>
-        </div>
-        
-        <!-- Main Customer Captivator Image Element -->
-        <div class="hero-slideshow">
-            <img src="banner.jpg" alt="Exceltation Banner Display">
-        </div>
-    </section>
+    <!-- Top Selection Banner Navigation Row -->
+    <nav class="nav-banner">
+        <a href="index.html" class="logo-area">
+            <img src="favicon.png" alt="Exceltation Favicon">
+            Exceltation
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li class="dropdown">
+                <a href="products.html">Digital Products</a>
+                <ul class="dropdown-menu">
+                    <li><a href="products.html">Excel Products</a></li>
+                    <li><a href="products.html">Mobile Apps</a></li>
+                    <li><a href="products.html">Other Products</a></li>
+                </ul>
+            </li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="#faqs">FAQs</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><input type="text" class="search-box" placeholder="Search site..."></li>
+            <li><a href="login.html">Login</a></li>
+            <li>
+                <a href="#" class="cart-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span class="cart-bubble">0</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-    <!-- Page Section 2: Disciplines -->
-    <section class="disciplines-section">
-        <h2>Three disciplines. One standard.</h2>
-        <div class="disciplines-grid">
-            <div class="discipline-card">
-                <h3>Workbook Design</h3>
-                <p>We transform raw operational data into high-utility tools. We build optimized, automated user interfaces, advanced data architectures, and macros engineered natively inside Microsoft Excel.</p>
+    <main class="container">
+        <!-- Section 1: Main Customer Captivator -->
+        <section class="hero-section">
+            <div class="hero-text">
+                <h1>Exalting Excellence in the Digital World</h1>
+                <p class="description">We architect highly optimized software, custom business applications, and advanced spreadsheet frameworks designed to optimize workflows and be user-friendly.</p>
+                <a href="products.html" class="btn-explore">Explore Digital Products</a>
+                <div class="metrics-grid">
+                    <div class="metric-item"><strong>150+</strong> Releases</div>
+                    <div class="metric-item"><strong>★ 4.8/5</strong> Satisfaction</div>
+                    <div class="metric-item"><strong>10+</strong> Partners</div>
+                </div>
             </div>
-            <div class="discipline-card">
-                <h3>App Development</h3>
-                <p>We create specialized smart device apps. We engineer native and cross-platform mobile applications tailored cleanly for fast performance, high utility, and intuitive navigation.</p>
+            <div class="slideshow-box">
+                <div>[Featured Products Slideshow Placeholder]</div>
             </div>
-            <div class="discipline-card">
-                <h3>Program Creation</h3>
-                <p>We solve specialized computational problems. From local system scripts to java-based software, we structure clean and easy computer programs.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Global Footer -->
+        <!-- Section 2: Disciplines -->
+        <section class="disciplines-section">
+            <h2 class="section-title">Three disciplines. One standard.</h2>
+            <div class="disciplines-grid">
+                <div class="discipline-card">
+                    <h3>Workbook Design</h3>
+                    <p>We transform raw operational data into high-utility tools. We build optimized, automated user interfaces, advanced data architectures, and macros engineered natively inside Microsoft Excel.</p>
+                </div>
+                <div class="discipline-card">
+                    <h3>App Development</h3>
+                    <p>We create specialized smart device apps. We engineer native and cross-platform mobile applications tailored cleanly for fast performance, high utility, and intuitive navigation.</p>
+                </div>
+                <div class="discipline-card">
+                    <h3>Program Creation</h3>
+                    <p>We solve specialized computational problems. From local system scripts to java-based software, we structure clean and easy computer programs.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: FAQs -->
+        <section id="faqs" class="faq-section">
+            <h2 class="section-title">Common questions, answered.</h2>
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block'">Is this a one-time purchase? <span>+</span></div>
+                <div class="faq-answer">Yes. Once you purchase a product, it's yours for life. We do not have any products with subscriptions or recurring charges. And, you are entitled to any future versions released for the product(s) you purchased.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'block' ? 'none' : 'block'">Do I need Excel skills to use these products? <span>+</span></div>
+                <div class="faq-answer">No. But, you will need to enable certain features for certain products.</div>
+            </div>
+        </section>
+    </main>
+
     <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
+        <div class="footer-grid">
+            <div class="footer-col">
                 <h4>Exceltation™</h4>
-                <p>Elite, highly sophisticated Excel sheets and digital tools built for everyone, from families to industry leaders.</p>
+                <p style="font-size: 0.85rem; color: #999;">Elite, highly sophisticated Excel sheets and digital tools built for everyone, from families to industry leaders.</p>
             </div>
-            <div class="footer-links">
+            <div class="footer-col">
                 <h4>Catalog</h4>
                 <ul>
                     <li><a href="products.html">Excel Products</a></li>
@@ -292,25 +377,25 @@
                     <li><a href="products.html">Other Products</a></li>
                 </ul>
             </div>
-            <div class="footer-links">
-                <h4>Company</h4>
+            <div class="footer-col">
+                <h4>Social</h4>
                 <ul>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">YouTube</a></li>
                 </ul>
             </div>
-            <div class="footer-links">
+            <div class="footer-col">
                 <h4>Legal</h4>
                 <ul>
-                    <li><a href="#terms">Terms & Conditions</a></li>
-                    <li><a href="#privacy">Privacy Policy</a></li>
-                    <li><a href="#refunds">Refund Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <div>© 2026 Exceltation. All rights reserved. | Exalting Excellence™</div>
-            <div>Made possible by Electus Design Agency</div>
+            <div>&copy; 2026 Exceltation. All rights reserved. | Exalting Excellence™</div>
+            <div style="font-size: 0.8rem; color: #666;">Made by Electus Design Agency</div>
         </div>
     </footer>
 
