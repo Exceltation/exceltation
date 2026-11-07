@@ -1,323 +1,517 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exceltation | Storefront</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <style>
-        /* Global & Reset Styles */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        
-        /* Top Navigation Banner */
-        .nav-banner { background: #ffffff; border-bottom: 1px solid #e0e0e0; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.4rem; color: #2e7d32; }
-        .logo-area img { width: 32px; height: 32px; object-fit: contain; }
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        
-        /* Dropdown Hitbox Wrapper & Correction */
-        .nav-item-dropdown { position: relative; padding: 10px 0; cursor: pointer; }
-        .nav-item { font-weight: 500; color: #555; transition: color 0.2s; }
-        .nav-item:hover, .nav-item-dropdown:hover .nav-item { color: #2e7d32; }
-        
-        /* Eliminate invisible gaps cleanly */
-        .dropdown-menu { 
-            display: none; 
-            position: absolute; 
-            top: 100%; 
-            left: 0; 
-            background: #ffffff; 
-            border: 1px solid #e0e0e0; 
-            min-width: 220px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
-            border-radius: 4px; 
-            margin-top: 0; 
-            padding: 5px 0;
-            z-index: 1010;
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Exceltation | Exalting Excellence</title> 
+<link rel="icon" type="image/png" href="favicon.png">
+<style> 
+/* Base Reset & Typography */ 
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+} 
+html {
+    scroll-behavior: smooth; 
+}
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    line-height: 1.6; 
+    color: #333; 
+    background-color: #f9f9f9; 
+} 
+/* Navigation Bar */ 
+.navbar { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    background-color: #ffffff; 
+    padding: 1rem 2rem; 
+    position: sticky; 
+    top: 0; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+    z-index: 100; 
+} 
+.navbar .logo { 
+    font-size: 1.5rem; 
+    font-weight: bold; 
+    color: #169A3A; 
+    text-decoration: none;
+} 
+.nav-controls { 
+    display: flex; 
+    align-items: center; 
+    gap: 2rem; 
+} 
+.nav-link-item { 
+    text-decoration: none; 
+    color: #555; 
+    font-weight: 500; 
+    font-size: 1rem; 
+    transition: color 0.3s; 
+} 
+.nav-link-item:hover { 
+    color: #169A3A; 
+} 
+/* Resources Dropdown Matrix */
+.dropdown { 
+    position: relative; 
+    display: inline-block; 
+}
+.dropdown-content { 
+    display: none; 
+    position: absolute; 
+    background-color: white; 
+    min-width: 150px; 
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1); 
+    border-radius: 4px; 
+    overflow: hidden; 
+    top: 100%; 
+    left: 0; 
+}
+.dropdown-content a { 
+    color: #333; 
+    padding: 0.75rem 1rem; 
+    text-decoration: none; 
+    display: block; 
+    font-size: 0.95rem; 
+    transition: background 0.2s;
+}
+.dropdown-content a:hover { 
+    background-color: #f4f7f5; 
+    color: #169A3A; 
+}
+.dropdown:hover .dropdown-content { 
+    display: block; 
+}
+/* Navigation Search Engine Input & Live Predictive Dropdown */
+.search-container {
+    position: relative;
+}
+.search-container input { 
+    padding: 0.5rem 1rem; 
+    border: 1px solid #ddd; 
+    border-radius: 20px; 
+    width: 180px; 
+    font-size: 0.9rem; 
+    transition: width 0.3s; 
+}
+.search-container input:focus { 
+    outline: none; 
+    border-color: #169A3A; 
+    width: 240px; 
+}
+.live-search-results {
+    display: none;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    width: 280px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    max-height: 320px;
+    overflow-y: auto;
+    z-index: 200;
+    border: 1px solid #eee;
+}
+.search-result-item {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f7f7f7;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+}
+.search-result-item:last-child {
+    border-bottom: none;
+}
+.search-result-item:hover {
+    background: #f4f7f5;
+}
+.search-result-item h5 {
+    font-size: 0.95rem;
+    color: #111;
+    margin-bottom: 0.15rem;
+}
+.search-result-item p {
+    font-size: 0.8rem;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.search-result-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: bold;
+    background: #e8f5ec;
+    color: #169A3A;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    margin-top: 0.25rem;
+}
+/* Navigation Interactive Shopping Cart Node */
+.cart-wrapper { 
+    position: relative; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    text-decoration: none;
+    color: inherit;
+}
+.cart-icon { 
+    font-size: 1.4rem; 
+}
+.cart-badge { 
+    position: absolute; 
+    top: -5px; 
+    right: -8px; 
+    background-color: #169A3A; 
+    color: white; 
+    font-size: 0.7rem; 
+    font-weight: bold; 
+    width: 18px; 
+    height: 18px; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    border: 2px solid white; 
+}
+/* Hero Section with Banner Background */ 
+.hero { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+    padding: 8rem 2rem; 
+    background: linear-gradient(rgba(14, 43, 21, 0.75), rgba(0, 0, 0, 0.65)), 
+                url('banner.jpg') no-repeat center center; 
+    background-size: cover; 
+    color: white; 
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6); 
+} 
+.hero h1 { 
+    font-size: 3rem; 
+    margin-bottom: 1rem; 
+    font-weight: 800;
+    letter-spacing: 1px;
+} 
+.hero p { 
+    font-size: 1.3rem; 
+    margin-bottom: 2.5rem; 
+    max-width: 700px; 
+    font-weight: 400;
+    opacity: 0.95;
+} 
+.cta-btn { 
+    display: inline-block; 
+    background-color: #169A3A; 
+    color: #fff; 
+    padding: 0.85rem 2.5rem; 
+    border-radius: 5px; 
+    text-decoration: none; 
+    font-weight: bold; 
+    transition: background-color 0.3s, transform 0.2s; 
+    box-shadow: 0 4px 15px rgba(22, 154, 58, 0.4);
+    text-shadow: none;
+} 
+.cta-btn:hover { 
+    background-color: #11742B; 
+    transform: translateY(-2px);
+} 
+/* Content Sections */ 
+.container { 
+    max-width: 1100px; 
+    margin: auto; 
+    padding: 5rem 2rem; 
+} 
+.section-title { 
+    text-align: center; 
+    font-size: 2.2rem; 
+    margin-bottom: 1rem; 
+    position: relative; 
+    color: #111;
+} 
+.section-subtitle {
+    text-align: center;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto 4rem;
+    font-size: 1.1rem;
+}
+.section-title::after { 
+    content: ''; 
+    display: block; 
+    width: 60px; 
+    height: 4px; 
+    background-color: #169A3A; 
+    margin: 15px auto 0; 
+    border-radius: 2px;
+} 
+/* Grid Layout */ 
+.grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 2.5rem; 
+} 
+.card { 
+    background: white; 
+    padding: 2.5rem 2rem; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04); 
+    text-align: center; 
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-top: 4px solid transparent;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-top: 4px solid #169A3A;
+} 
+.card h3 { 
+    margin-bottom: 1rem; 
+    color: #111; 
+    font-size: 1.4rem;
+} 
+.card p {
+    color: #555;
+    font-size: 0.95rem;
+}
+/* Contact Form */ 
+.contact-form { 
+    max-width: 600px; 
+    margin: 0 auto; 
+    background: white; 
+    padding: 3rem; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 25px rgba(0,0,0,0.05); 
+} 
+.form-group { 
+    margin-bottom: 1.5rem; 
+} 
+.form-group label { 
+    display: block; 
+    margin-bottom: 0.5rem; 
+    font-weight: 600; 
+    color: #333;
+    font-size: 0.9rem;
+} 
+.form-group input, .form-group textarea { 
+    width: 100%; 
+    padding: 0.85rem; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    font-size: 1rem; 
+    transition: border-color 0.3s;
+} 
+.form-group input:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: #169A3A;
+}
+.form-group textarea { 
+    resize: vertical; 
+    height: 140px; 
+} 
+.submit-btn { 
+    width: 100%; 
+    background-color: #169A3A; 
+    color: white; 
+    border: none; 
+    padding: 1rem; 
+    font-size: 1rem; 
+    font-weight: bold; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+} 
+.submit-btn:hover { 
+    background-color: #11742B; 
+} 
+/* Footer */ 
+footer { 
+    background-color: #111; 
+    color: #aaa; 
+    text-align: center; 
+    padding: 2rem; 
+    font-size: 0.9rem; 
+} 
+/* Mobile Viewports */ 
+@media (max-width: 768px) { 
+    .navbar { 
+        flex-direction: column; 
+        gap: 1rem; 
+    } 
+    .hero h1 { 
+        font-size: 2.2rem; 
+    } 
+    .contact-form {
+        padding: 2rem 1.5rem;
+    }
+} 
+</style> 
+</head> 
+<body> 
+
+<!-- Header Navigation System --> 
+<nav class="navbar"> 
+<a href="https://exceltation.com" class="logo">Exceltation™</a> 
+<div class="nav-controls">
+    <a href="https://exceltation.com" class="nav-link-item">Home</a>
+    <a href="/products/" class="nav-link-item">Products</a>
+    
+    <div class="dropdown">
+        <a href="#services" class="nav-link-item" style="cursor: pointer;">Resources ▼</a>
+        <div class="dropdown-content">
+            <a href="#services">About</a>
+            <a href="#">FAQs</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </div>
+
+    <!-- Live Search Dropdown System Structure -->
+    <div class="search-container">
+        <input type="text" id="liveSearchInput" placeholder="Search products..." autocomplete="off">
+        <div id="liveSearchResultsPanel" class="live-search-results"></div>
+    </div>
+
+    <a href="https://exceltation.com" class="cart-wrapper">
+        <span class="cart-icon">🛒</span>
+        <div class="cart-badge">0</div>
+    </a>
+</div>
+</nav> 
+<!-- Hero Showcase Section --> 
+<header id="home" class="hero"> 
+<h1>Exalting Excellence in the Digital World</h1> 
+<p>We architect highly optimized software, custom business applications, and advanced spreadsheet frameworks designed to optimize workflows and be user-friendly.</p> 
+<a href="#contact" class="cta-btn">Excel your Workflow</a> 
+</header> 
+
+<!-- Services / About Section --> 
+<section id="services" class="container"> 
+<h2 class="section-title">Our Services</h2> 
+<p class="section-subtitle">Engineered infrastructure and digital tools built precisely around your operational needs.</p>
+<div class="grid"> 
+<div class="card"> 
+<h3>Workbook Design</h3> 
+<p>We transform raw operational data into high-utility tools. We build optimized, automated user interfaces, advanced data architectures, and macros engineered natively inside Microsoft Excel.</p> 
+</div> 
+<div class="card"> 
+<h3>App Development</h3> 
+<p>We create specialized smart device apps. We engineer native and cross-platform mobile applications tailored cleanly for fast performance, high utility, and intuitive navigation.</p> 
+</div> 
+<div class="card"> 
+<h3>Program Creation</h3> 
+<p>We solve specialized computational problems. From local system scripts to java-based software, we structure clean and intuitive computer programs.</p> 
+</div> 
+</div> 
+</section> 
+
+<!-- Contact Form Section --> 
+<section id="contact" class="container" style="background-color: #f4f7f5; max-width: 100%;"> 
+<div style="max-width: 1100px; margin: auto;"> 
+<h2 class="section-title">Get Started</h2> 
+<p class="section-subtitle">Let us know who you are, and we will get in touch.</p>
+<form class="contact-form" onsubmit="triggerLocalMailApp(event)">
+<div class="form-group"> 
+<label for="name">Full Name / Company</label> 
+<input type="text" id="name" name="name" required placeholder="John Doe"> </div> 
+<div class="form-group"> 
+<label for="email">Your E-mail Address</label> 
+<input type="email" id="email" name="email" required placeholder="name@company.com"> </div> 
+<div class="form-group"> 
+<label for="message">Message</label> 
+<textarea id="message" name="message" required placeholder="Describe the application, features, or organizational problem you need solved..."></textarea> </div> 
+<button type="submit" class="submit-btn">Submit Message</button> 
+</form> 
+</div> 
+</section> 
+
+<!-- Footer Copyright --> 
+<footer> 
+<p>&copy; 2026 Exceltation LLC. All rights reserved. | Exalting Excellence™</p> 
+</footer> 
+
+<script>
+    // Global Catalog State Matrix for Live Search Sync
+    const searchCatalogData = [
+        { name: "Capital Modeler Pro", category: "Finance", platform: "Excel", desc: "Automated cashflow projection matrices with visual analytics." },
+        { name: "Defense Logistics Framework", category: "DoD", platform: "Other", desc: "High-security strategic tactical tracking system." },
+        { name: "GuildMaster Ledger", category: "Gaming", platform: "Apps", desc: "Mobile companion application tracking virtual market variables." },
+        { name: "Tactical Command Simulator", category: "Gaming", platform: "Other", desc: "Operational simulation framework configuration manager." },
+        { name: "Portfolio Risk Engine", category: "Finance", platform: "Apps", desc: "Real-time investment asset tracking application." },
+        { name: "Readiness Audit Framework", category: "DoD", platform: "Excel", desc: "MSO Excel auditing workbook built for inspection modeling." }
+    ];
+
+    const searchInput = document.getElementById('liveSearchInput');
+    const resultsPanel = document.getElementById('liveSearchResultsPanel');
+
+    // Evaluates strings instantly on every keystroke
+    searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        resultsPanel.innerHTML = "";
+
+        if (query.length === 0) {
+            resultsPanel.style.display = "none";
+            return;
         }
-        .nav-item-dropdown:hover .dropdown-menu { display: block; }
-        
-        /* Interactive Highlight Styling Fixes */
-        .dropdown-menu li { padding: 0; }
-        .dropdown-menu li a { 
-            display: block; 
-            padding: 10px 20px; 
-            color: #555; 
-            font-size: 0.95rem; 
-            transition: all 0.2s ease; 
-        }
-        .dropdown-menu li a:hover { 
-            background-color: #f1f8e9; 
-            color: #2e7d32; 
-            font-weight: 600; 
-            padding-left: 24px;
-        }
-        
-        .search-box { padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; width: 180px; }
-        .cart-icon-btn { display: flex; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; font-size: 1.1rem; }
-        .cart-bubble { background: #2e7d32; color: #fff; font-size: 0.75rem; padding: 2px 7px; border-radius: 10px; font-weight: bold; }
 
-        /* Unified Page Section 1: Hero Container utilizing banner.jpg */
-        .hero-section { 
-            position: relative; 
-            background: url('banner.jpg') no-repeat center center; 
-            background-size: cover; 
-            padding: 80px 5%; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            gap: 40px; 
-            flex-wrap: wrap;
-        }
-        /* Gradient mask layer to optimize text contrast overlay */
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(20, 20, 20, 0.85) 0%, rgba(30, 30, 30, 0.7) 100%);
-            z-index: 1;
-        }
-        .hero-content { position: relative; z-index: 2; flex: 1; min-width: 300px; color: #ffffff; }
-        .hero-title { font-size: 2.8rem; font-weight: 800; line-height: 1.2; margin-bottom: 15px; color: #ffffff; }
-        .hero-desc { font-size: 1rem; color: #cccccc; margin-bottom: 25px; max-width: 550px; }
-        
-        .cta-btn { display: inline-block; background: #2e7d32; color: #fff; padding: 12px 30px; font-weight: 600; border-radius: 4px; margin-bottom: 35px; transition: background 0.2s; }
-        .cta-btn:hover { background: #1b5e20; }
-        
-        .hero-metrics { display: flex; gap: 30px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; }
-        .metric-item { display: flex; flex-direction: column; }
-        .metric-val { font-size: 1.5rem; font-weight: bold; color: #81c784; }
-        .metric-lbl { font-size: 0.85rem; color: #b0bec5; }
+        // Filters matching inventory positions
+        const matches = searchCatalogData.filter(item => 
+            item.name.toLowerCase().includes(query) || 
+            item.desc.toLowerCase().includes(query) ||
+            item.category.toLowerCase().includes(query)
+        );
 
-        /* Featured Slideshow Component */
-        .slideshow-container { position: relative; z-index: 2; flex: 1; min-width: 300px; max-width: 500px; height: 320px; background: rgba(0, 0, 0, 0.4); border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .slideshow-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #fff; position: relative; }
-        .slide-placeholder-text { font-style: italic; color: #aaa; text-align: center; padding: 20px; }
-        .slide-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; cursor: pointer; border: none; }
-        .slide-nav.prev { left: 15px; }
-        .slide-nav.next { right: 15px; }
-        .slide-nav:hover { background: rgba(255,255,255,0.4); }
-
-        /* Page Section 2: Disciplines */
-        .section-disciplines { padding: 60px 5%; background: #ffffff; text-align: center; }
-        .section-title { font-size: 2rem; margin-bottom: 10px; font-weight: 700; }
-        .section-subtitle { font-size: 1.1rem; color: #666; margin-bottom: 40px; }
-        .disciplines-grid { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
-        .discipline-card { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 6px; padding: 30px; flex: 1; min-width: 280px; max-width: 360px; text-align: left; }
-        .discipline-card h3 { font-size: 1.3rem; margin-bottom: 15px; color: #2e7d32; }
-
-        /* Page Section 3: New Releases */
-        .section-releases { padding: 60px 5%; }
-        .releases-list { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 15px; }
-        .release-item-placeholder { min-width: 220px; background: #fff; border: 1px solid #e0e0e0; padding: 20px; border-radius: 6px; text-align: center; color: #888; font-size: 0.9rem; border-style: dashed; }
-
-        /* Page Section 5: FAQs Dropdown */
-        .section-faqs { padding: 60px 5%; background: #ffffff; }
-        .faq-container { max-width: 800px; margin: 0 auto; text-align: left; }
-        .faq-item { border-bottom: 1px solid #e0e0e0; padding: 15px 0; }
-        .faq-question { font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
-        .faq-question:hover { color: #2e7d32; }
-        .faq-answer { display: none; padding: 10px 0 15px 0; color: #555; font-size: 0.95rem; }
-
-        /* Bottom Banner / Footer */
-        .footer-banner { background: #212121; color: #e0e0e0; padding: 50px 5% 20px 5%; font-size: 0.9rem; }
-        .footer-grid { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; margin-bottom: 40px; }
-        .footer-brand { max-width: 350px; }
-        .footer-brand h4 { font-size: 1.2rem; color: #fff; margin-bottom: 15px; font-weight: bold; }
-        .footer-brand p { color: #9e9e9e; font-size: 0.85rem; }
-        .footer-links-col h5 { color: #fff; margin-bottom: 15px; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
-        .footer-links-col ul li { margin-bottom: 8px; }
-        .footer-links-col ul li a { color: #9e9e9e; }
-        .footer-links-col ul li a:hover { color: #81c784; }
-        .footer-bottom { border-top: 1px solid #333; padding-top: 20px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px; color: #757575; font-size: 0.8rem; }
-    </style>
-</head>
-<body>
-
-    <!-- Top Selection Banner -->
-    <nav class="nav-banner">
-        <a href="index.html" class="logo-area">
-            <img src="favicon.png" alt="Exceltation Logo">
-            <span>Exceltation</span>
-        </a>
-        <div class="nav-links">
-            <a href="index.html" class="nav-item">Home</a>
-            <div class="nav-item-dropdown">
-                <a href="products.html" class="nav-item">Digital Products</a>
-                <ul class="dropdown-menu">
-                    <li><a href="products.html">Excel Products</a></li>
-                    <li><a href="products.html">Mobile Apps</a></li>
-                    <li><a href="products.html">Other Products</a></li>
-                </ul>
-            </div>
-            <a href="about.html" class="nav-item">About</a>
-            <a href="#faqs" class="nav-item">FAQs</a>
-            <a href="contact.html" class="nav-item">Contact</a>
-            <input type="text" class="search-box" placeholder="Search site...">
-            <a href="login.html" class="nav-item" style="margin-left: 10px;">Login</a>
-            <button class="cart-icon-btn">
-                <span>🛒</span>
-                <span class="cart-bubble">0</span>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Page Section 1: Hero Block wrapped cleanly over banner.jpg -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <h1 class="hero-title">Exalting Excellence<br>in the Digital World</h1>
-            <p class="hero-desc">We architect highly optimized software, custom business applications, and advanced spreadsheet frameworks designed to optimize workflows and be user-friendly.</p>
-            <a href="products.html" class="cta-btn">Explore Digital Products</a>
-            
-            <div class="hero-metrics">
-                <div class="metric-item">
-                    <span class="metric-val">150+</span>
-                    <span class="metric-lbl">Releases</span>
-                </div>
-                <div class="metric-item">
-                    <span class="metric-val">★ #/5</span>
-                    <span class="metric-lbl">Satisfaction</span>
-                </div>
-                <div class="metric-item">
-                    <span class="metric-val">10+</span>
-                    <span class="metric-lbl">Industry Partners</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Featured Slideshow Frame Component -->
-        <div class="slideshow-container">
-            <div class="slideshow-inner">
-                <button class="slide-nav prev">&lt;</button>
-                <div class="slide-placeholder-text">&lt;FEATURED SLIDESHOW IMAGES ACTIVE&gt;</div>
-                <button class="slide-nav next">&gt;</button>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-disciplines">
-        <h2 class="section-title">Three disciplines. One standard.</h2>
-        <p class="section-subtitle">Why Exceltation</p>
-        <div class="disciplines-grid">
-            <div class="discipline-card">
-                <h3>Workbook Design</h3>
-                <p>We transform raw operational data into high-utility tools. We build optimized, automated user interfaces, advanced data architectures, and macros engineered natively inside Microsoft Excel.</p>
-            </div>
-            <div class="discipline-card">
-                <h3>App Development</h3>
-                <p>We create specialized smart device apps. We engineer native and cross-platform mobile applications tailored cleanly for fast performance, high utility, and intuitive navigation.</p>
-            </div>
-            <div class="discipline-card">
-                <h3>Program Creation</h3>
-                <p>We solve specialized computational problems. From local system scripts to java-based software, we structure clean and easy computer programs.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-releases">
-        <h2 class="section-title" style="text-align: center; margin-bottom: 30px;">Exceltation’s Newest Releases</h2>
-        <div class="releases-list">
-            <div class="release-item-placeholder">Release Item 1</div>
-            <div class="release-item-placeholder">Release Item 2</div>
-            <div class="release-item-placeholder">Release Item 3</div>
-            <div class="release-item-placeholder">Release Item 4</div>
-            <div class="release-item-placeholder">Release Item 5</div>
-            <div class="release-item-placeholder">Release Item 6</div>
-            <div class="release-item-placeholder">Release Item 7</div>
-        </div>
-    </section>
-
-    <section id="faqs" class="section-faqs">
-        <div class="faq-container">
-            <h2 class="section-title" style="margin-bottom: 5px;">Frequently Asked Questions</h2>
-            <p style="color: #666; margin-bottom: 30px;">Common questions, answered.</p>
-            
-            <div class="faq-item">
-                <div class="faq-question">Is this a one-time purchase? <span>+</span></div>
-                <div class="faq-answer">Yes. Once you purchase a product, it’s yours for life. We do not have any products with subscriptions or recurring charges. And, you are entitled to any future versions released for the product(s) you purchased.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">Do I need Excel skills to use these products? <span>+</span></div>
-                <div class="faq-answer">No. But, you will need to enable certain features for certain products.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">Will this work with my Excel? <span>+</span></div>
-                <div class="faq-answer">All of Exceltation’s Excel and other MSO products are built with MSO 365 (the latest version of Excel), unless otherwise specified. If you do not have the latest version of Excel, your product(s) may not work properly, fully, or at all.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">Do I need Macros to use Excel Products? <span>+</span></div>
-                <div class="faq-answer">If the product is a macro enabled workbook (.xlsm/.docm) then yes, otherwise (.xlsx/.docx) no. Make sure to enable these features by option Excel or Word then going to File > Options > Trust Center > Trust Center Settings… > Macro Settings > Then check the boxes “Enable all macros” and “Trust access to the VBA project object model”.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">Can I share my purchased workbook with people I know? <span>+</span></div>
-                <div class="faq-answer">Not entirely. Exceltation understands that we have no control over what you do after purchase, regarding sharing a product via your e-mail, share drive, or such as. Especially since many of our products are not proprietary, thus there is no product licensing. However, re-selling our intellectual property under you or your business’ name is prohibited under copyright law.</div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer-banner">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <h4>Exceltation™</h4>
-                <p style="margin-bottom: 15px;">Elite, highly sophisticated Excel sheets and digital tools built for everyone, from families to industry leaders.</p>
-                <p>Made possible by 'Electus Design Agency'</p>
-            </div>
-            <div class="footer-links-col">
-                <h5>Social Connections</h5>
-                <ul>
-                    <li><a href="https://www.linkedin.com/company/exceltation/" target="_blank">LinkedIn</a></li>
-                    <li><a href="https://www.facebook.com/Exceltation/" target="_blank">Facebook</a></li>
-                    <li><a href="https://www.youtube.com/@Exceltation" target="_blank">YouTube</a></li>
-                    <li><a href="https://discord.gg/B35cKactrD" target="_blank">Discord</a></li>
-                </ul>
-            </div>
-            <div class="footer-links-col">
-                <h5>Product Catalog</h5>
-                <ul>
-                    <li><a href="products.html">Excel Products</a></li>
-                    <li><a href="products.html">Mobile Apps</a></li>
-                    <li><a href="products.html">Other Products</a></li>
-                </ul>
-            </div>
-            <div class="footer-links-col">
-                <h5>Internal Info</h5>
-                <ul>
-                    <li><a href="about.html">About Brand</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="#">Admin Portal</a></li>
-                </ul>
-            </div>
-            <div class="footer-links-col">
-                <h5>Legal Terms</h5>
-                <ul>
-                    <li><a href="#">Terms & Conditions</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Refund Policy</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>© 2026 Exceltation. All rights reserved. | Exalting Excellence™</span>
-        </div>
-    </footer>
-
-    <script>
-        document.querySelectorAll('.faq-question').forEach(item => {
-            item.addEventListener('click', () => {
-                const answer = item.nextElementSibling;
-                const toggle = item.querySelector('span');
-                if(answer.style.display === 'block') {
-                    answer.style.display = 'none';
-                    toggle.textContent = '+';
-                } else {
-                    answer.style.display = 'block';
-                    toggle.textContent = '-';
-                }
+        if (matches.length === 0) {
+            resultsPanel.innerHTML = `<div style="padding: 1rem; color: #888; font-size: 0.9rem; text-align: center;">No matching products found</div>`;
+        } else {
+            matches.forEach(item => {
+                resultsPanel.innerHTML += `
+                    <a href="https://exceltation.com" class="search-result-item">
+                        <h5>${item.name}</h5>
+                        <p>${item.desc}</p>
+                        <span class="search-result-badge">${item.category}</span>
+                        <span class="search-result-badge" style="background:#e0f0ff; color:#0066cc;">${item.platform}</span>
+                    </a>`;
             });
-        });
-    </script>
+        }
+        resultsPanel.style.display = "block";
+    });
+
+    // Dismisses dropdown panel gracefully if user clicks anywhere else outside the container focus
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !resultsPanel.contains(e.target)) {
+            resultsPanel.style.display = "none";
+        }
+    });
+    // System mail dispatch engine pulling field context locally 
+function triggerLocalMailApp(e) {
+    e.preventDefault();
+    
+    const clientName = document.getElementById('name').value.trim();
+    const clientEmail = document.getElementById('email').value.trim();
+    const clientMessage = document.getElementById('message').value.trim();
+    
+    // Define your business receiving inbox here
+    const targetBusinessInbox = "Contact@Exceltation.com";
+    const emailSubject = encodeURIComponent("Message from: " + clientName);
+    
+    // Formats fields into structural body blocks inside message parameters
+    const emailBody = encodeURIComponent(
+        "Sender Name/Company: " + clientName + "\n" +
+        "Return Contact Address: " + clientEmail + "\n\n" +
+        "Message:\n" + clientMessage
+    );
+    
+    // Fires browser trigger execution launching local desktop ecosystem client 
+    window.location.href = "mailto:" + targetBusinessInbox + "?subject=" + emailSubject + "&body=" + emailBody;
+}
+</script>
 </body>
 </html>
